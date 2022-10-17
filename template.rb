@@ -195,35 +195,35 @@ after_bundle do
     JS
   end
 
-  # Home page
-  ########################################
-  run 'rm app/views/pages/home.html.erb'
-  create_file 'app/views/pages/home.html.erb' do
-  <<-HTML
-  <div class="row">
-    <div class="col-4"></div>
-    <div class="col-4 mt-5">
-      <div class="row mb-5">
-        <h1 style="text-align:center"><strong>Log in</strong> as</h1>
-      </div>
-      <div class="row">
-        <form action=<%= root_path %>>
-          <button class = "btn btn-dark w-100" type="submit">
-              Admin
-          </button>
-        </form>
-      </div>
-      <div class="row mt-3">
-        <form action=<%= root_path %>>
-          <button class = "btn btn-dark w-100" type="submit">
-              Client
-          </button>
-        </form>
-      </div>
+# Home page
+########################################
+run 'rm app/views/pages/home.html.erb'
+create_file 'app/views/pages/home.html.erb' do
+<<-HTML
+<div class="row">
+  <div class="col-4"></div>
+  <div class="col-4 mt-5">
+    <div class="row mb-5">
+      <h1 style="text-align:center"><strong>Log in</strong> as</h1>
+    </div>
+    <div class="row">
+      <form action=<%= root_path %>>
+        <button class = "btn btn-dark w-100" type="submit">
+            Admin
+        </button>
+      </form>
+    </div>
+    <div class="row mt-3">
+      <form action=<%= root_path %>>
+        <button class = "btn btn-dark w-100" type="submit">
+            Client
+        </button>
+      </form>
     </div>
   </div>
-  HTML
-  end
+</div>
+HTML
+end
 
   # Dotenv
   ########################################
