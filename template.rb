@@ -24,19 +24,8 @@ inject_into_file 'Gemfile', after: 'group :development, :test do' do
   RUBY
 end
 
-inject_into_file 'Gemfile', after: 'group :test do' do
-  <<-RUBY
-  # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 3.26'
-  gem 'selenium-webdriver', '>= 4.0.0.rc1'
-  # Easy installation and use of web drivers to run system tests with browsers
-  gem 'webdrivers'
-  RUBY
-end
-
 inject_into_file "Gemfile", after: 'gem "debug", platforms: %i[ mri mingw x64_mingw ]' do
 <<-RUBY
-
   gem "dotenv-rails"
 RUBY
 end
