@@ -33,13 +33,6 @@ run "rm -rf vendor"
 run "curl -L https://github.com/lewagon/rails-stylesheets/archive/master.zip > stylesheets.zip"
 run "unzip stylesheets.zip -d app/assets && rm -f stylesheets.zip && rm -f app/assets/rails-stylesheets-master/README.md"
 run "mv app/assets/rails-stylesheets-master app/assets/stylesheets"
-run "git mv app/javascript app/assets"
-
-inject_into_file "app/assets/config/manifest.js" do
-  <<~JAVASCRIPT
-    //= link application.js
-  JAVASCRIPT
-end
 
 inject_into_file "config/initializers/assets.rb", before: "# Precompile additional assets." do
   <<~RUBY
@@ -189,6 +182,14 @@ after_bundle do
   append_file "app/javascript/application.js", <<~JS
     import "bootstrap"
   JS
+
+  run "git mv app/javascript app/assets"
+
+  inject_into_file "app/assets/config/manifest.js" do
+    <<~JAVASCRIPT
+      //= link application.js
+    JAVASCRIPT
+  end
 
   # Heroku
   ########################################
