@@ -33,7 +33,7 @@ run "rm -rf vendor"
 run "curl -L https://github.com/lewagon/rails-stylesheets/archive/master.zip > stylesheets.zip"
 run "unzip stylesheets.zip -d app/assets && rm -f stylesheets.zip && rm -f app/assets/rails-stylesheets-master/README.md"
 run "mv app/assets/rails-stylesheets-master app/assets/stylesheets"
-run "git mv app/javascript app/assets/javascript"
+run "git mv app/javascript app/assets"
 
 inject_into_file "app/assets/config/manifest.js" do
   <<~JAVASCRIPT
