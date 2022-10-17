@@ -204,14 +204,14 @@ after_bundle do
             <h1 style="text-align:center"><strong>Log in</strong> as</h1>
           </div>
           <div class="row">
-            <form action=<%= users_path %>>
+            <form action=<%= root_path %>>
               <button class = "btn btn-dark w-100" type="submit">
                   Admin
               </button>
             </form>
           </div>
           <div class="row mt-3">
-            <form action=<%= new_dashboard_path %>>
+            <form action=<%= root_path %>>
               <button class = "btn btn-dark w-100" type="submit">
                   Client
               </button>
