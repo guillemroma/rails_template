@@ -195,7 +195,10 @@ after_bundle do
     JS
   end
 
-  inject_into_file 'app/views/pages/home.html.erb' do
+  # Home page
+  ########################################
+  run 'rm app/views/pages/home.html.erb'
+  create_file 'app/views/pages/home.html.erb' do
     <<-HTML
       <div class="row">
         <div class="col-4"></div>
