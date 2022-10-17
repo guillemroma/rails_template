@@ -13,15 +13,15 @@ inject_into_file "Gemfile", before: "group :development, :test do" do
     gem 'pry', '~> 0.13.1'
     gem "factory_bot_rails"
     gem "sidekiq", "~> 6.5"
-
   RUBY
 end
 
 inject_into_file "Gemfile", after: 'gem "debug", platforms: %i[ mri mingw x64_mingw ]' do
-  <<-RUBY
-    gem "dotenv-rails"
-    gem 'rspec-rails'
-  RUBY
+<<-RUBY
+
+  gem "dotenv-rails"
+  gem 'rspec-rails'
+RUBY
 end
 
 gsub_file("Gemfile", '# gem "sassc-rails"', 'gem "sassc-rails"')
