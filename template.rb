@@ -13,12 +13,12 @@ inject_into_file "Gemfile", before: "group :development, :test do" do
     gem 'pry', '~> 0.13.1'
     gem "factory_bot_rails"
     gem "sidekiq", "~> 6.5"
+
   RUBY
 end
 
 inject_into_file "Gemfile", after: 'gem "debug", platforms: %i[ mri mingw x64_mingw ]' do
   <<-RUBY
-
     gem "dotenv-rails"
     gem 'rspec-rails'
   RUBY
@@ -33,6 +33,13 @@ run "rm -rf vendor"
 run "curl -L https://github.com/lewagon/rails-stylesheets/archive/master.zip > stylesheets.zip"
 run "unzip stylesheets.zip -d app/assets && rm -f stylesheets.zip && rm -f app/assets/rails-stylesheets-master/README.md"
 run "mv app/assets/rails-stylesheets-master app/assets/stylesheets"
+run "git mv app/javascript app/assets/javascript"
+
+inject_into_file "app/assets/config/manifest.js" do
+  <<~JAVASCRIPT
+    //= link application.js
+  JAVASCRIPT
+end
 
 inject_into_file "config/initializers/assets.rb", before: "# Precompile additional assets." do
   <<~RUBY
