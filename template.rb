@@ -89,6 +89,18 @@ inject_into_file 'app/views/layouts/application.html.erb', after: '<body>' do
   HTML
 end
 
+inject_into_file 'app/views/layouts/application.html.erb', before: '<%= yield %>' do
+  <<-HTML
+    <div class="yield-container">
+  HTML
+end
+
+inject_into_file 'app/views/layouts/application.html.erb', after: '<%= yield %>' do
+  <<-HTML
+    </div>
+  HTML
+end
+
 # README
 ########################################
 markdown_file_content = <<-MARKDOWN
@@ -183,6 +195,33 @@ after_bundle do
     JS
   end
 
+  inject_into_file 'app/views/pages/home.html.erb' do
+    <<-HTML
+      <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4 mt-5">
+          <div class="row mb-5">
+            <h1 style="text-align:center"><strong>Log in</strong> as</h1>
+          </div>
+          <div class="row">
+            <form action=<%= users_path %>>
+              <button class = "btn btn-dark w-100" type="submit">
+                  Admin
+              </button>
+            </form>
+          </div>
+          <div class="row mt-3">
+            <form action=<%= new_dashboard_path %>>
+              <button class = "btn btn-dark w-100" type="submit">
+                  Client
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    HTML
+  end
+
   # Dotenv
   ########################################
   run 'touch .env'
@@ -194,5 +233,5 @@ after_bundle do
   # Git
   ########################################
   git add: '.'
-  git commit: "-m 'Initial commit with devise template from https://github.com/lewagon/rails-templates'"
+  git commit: "-m 'Setup done. Let's rock'"
 end
