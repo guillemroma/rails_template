@@ -5,29 +5,24 @@ run "if uname | grep -q 'Darwin'; then pgrep spring | xargs kill -9; fi"
 inject_into_file "Gemfile", before: "group :development, :test do" do
   <<~RUBY
     gem "devise"
-    gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
-    gem "pundit"
-    gem 'whenever', require: false
-    gem 'pry'
-    gem "factory_bot_rails"
-    gem "sidekiq", "~> 6.5"
-
     gem "autoprefixer-rails"
     gem "font-awesome-sass", "~> 6.1"
     gem "simple_form", github: "heartcombo/simple_form"
-  RUBY
-end
-
-inject_into_file 'Gemfile', after: 'group :development, :test do' do
-  <<-RUBY
-  gem 'rspec-rails'
+    gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
+    gem "pundit"
+    gem 'whenever', require: false
+    gem 'pry', '~> 0.13.1'
+    gem "factory_bot_rails"
+    gem "sidekiq", "~> 6.5"
   RUBY
 end
 
 inject_into_file "Gemfile", after: 'gem "debug", platforms: %i[ mri mingw x64_mingw ]' do
-<<-RUBY
-  gem "dotenv-rails"
-RUBY
+  <<-RUBY
+
+    gem "dotenv-rails"
+    gem 'rspec-rails'
+  RUBY
 end
 
 gsub_file("Gemfile", '# gem "sassc-rails"', 'gem "sassc-rails"')
