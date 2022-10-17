@@ -10,7 +10,6 @@ inject_into_file 'Gemfile', before: 'group :development, :test do' do
     gem 'font-awesome-sass', '~> 5.6.1'
     gem 'simple_form', github: 'heartcombo/simple_form'
 
-    gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
     gem "pundit"
     gem 'whenever', require: false
     gem 'pry', '~> 0.13.1'
