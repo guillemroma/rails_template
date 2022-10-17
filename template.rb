@@ -52,28 +52,36 @@ gsub_file(
 # Flashes
 ########################################
 file "app/views/shared/_flashes.html.erb", <<~HTML
-  <% if notice %>
-    <div class="alert alert-info alert-dismissible fade show m-1" role="alert">
-      <%= notice %>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-      </button>
-    </div>
-  <% end %>
-  <% if alert %>
-    <div class="alert alert-warning alert-dismissible fade show m-1" role="alert">
-      <%= alert %>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-      </button>
-    </div>
-  <% end %>
-HTML
+  <div class="navbar navbar-expand-sm navbar-light navbar">
+    <div class="container-fluid">
+      <%= link_to root_path, class: "navbar-brand" do %>
+        <p><strong>[company]</strong></p>
+      <% end %>
 
-run "curl -L https://raw.githubusercontent.com/lewagon/awesome-navbars/master/templates/_navbar_wagon.html.erb > app/views/shared/_navbar.html.erb"
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <% if user_signed_in? %>
+            <li class="nav-item dropdown">
+              <%= image_tag "https://cdn.onlinewebfonts.com/svg/img_404623.png", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <%= link_to "Log out", destroy_user_session_path, :method => :delete, class: "dropdown-item" %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+HTML
 
 inject_into_file "app/views/layouts/application.html.erb", after: "<body>" do
   <<~HTML
     <%= render "shared/navbar" %>
-    <%= render "shared/flashes" %>
   HTML
 end
 
@@ -182,14 +190,6 @@ after_bundle do
   append_file "app/javascript/application.js", <<~JS
     import "bootstrap"
   JS
-
-  run "git mv app/javascript app/assets"
-
-  inject_into_file "app/assets/config/manifest.js" do
-    <<~JAVASCRIPT
-      //= link application.js
-    JAVASCRIPT
-  end
 
   # Heroku
   ########################################
