@@ -104,7 +104,51 @@ end
 # README
 ########################################
 markdown_file_content = <<-MARKDOWN
-Rails app generated with [lewagon/rails-templates](https://github.com/lewagon/rails-templates), created by the [Le Wagon coding bootcamp](https://www.lewagon.com) team.
+## Overview<br>
+The app has been built using the following gems:
+
+(1) **Pundit** for Authorization<br>
+(2) **Devise** for Authentication<br>
+(3) **Rspec** and **Factory Bot Rails** for Testing<br>
+(4) **Whenever** to automate Tasks<br> [CHECK]
+(5) **Sidekiq** to manage background Tasks<br> [CHECK]
+
+## Pre-requisites<br>
+Run the following commands:<br>
+
+(1) bundle install<br>
+
+(2.1) crontab -r<br> [CHECK]
+(2.2) sudo service cron start<br> [CHECK]
+(2.3) sudo service cron status -> make sure that it returns 'cron is running'<br> [CHECK]
+(2.4) whenever --update-crontab --set environment='development'<br> [CHECK]
+
+(3) sidekiq<br> [CHECK]
+
+(4) rails db:prepare<br>
+
+Seeds will ccreate an admin (user_type: "corporation") and 6 clients (user_type: "client") [CHECK]
+
+## App's design and architecture<br>
+
+### Authorization [CHECK]
+Authorization is based on user_type ("client" or "corporation").
+
+* A "client" user_type is only allowed to (1) access her own dashboard, (2) claim her rewards and (3) check her memberhsip.
+* A "corporation" user_type can: (1) create new clients and edit existing ones, (2) create new transactions, (3) view client's points and transactions and (4) delete clients
+
+### Models and its use
+[FILL]
+
+### Testing
+Please refer to **spec** folder (disregard **test** folder)
+
+## Next steps<br> [CHECK]
+How can it be improved?
+
+(1) If the app is finally released, multi-tenancy could be explored. The **Apartment** gem could be a great choice<br>
+(2) Add **AuditLogs** to the most relevant transactions<br>
+(3) Add **begin** and **resque** where applicable<br>
 MARKDOWN
 file 'README.md', markdown_file_content, force: true
 
@@ -133,6 +177,20 @@ after_bundle do
   # Routes
   ########################################
   route "root to: 'pages#home'"
+
+  inject_into_file 'config/routes.rb', after: 'Rails.application.routes.draw do' do
+    devise_for :users, :path => 'u'
+  end
+
+  inject_into_file 'config/routes.rb', after: '# For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html' do
+
+    resources :users, only: [:new, :create, :show, :index, :edit, :update, :destroy]
+
+    require "sidekiq/web"
+    # authenticate :user, ->(user) { user.admin } do
+    #   mount Sidekiq::Web => '/sidekiq'
+    # end
+  end
 
   # Git ignore
   ########################################
