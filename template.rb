@@ -174,23 +174,7 @@ after_bundle do
   generate('simple_form:install', '--bootstrap')
   generate(:controller, 'pages', 'home', '--skip-routes', '--no-test-framework')
 
-  # Routes
-  ########################################
-  route "root to: 'pages#home'"
 
-  inject_into_file 'config/routes.rb', after: 'Rails.application.routes.draw do' do
-    devise_for :users, :path => 'u'
-  end
-
-  inject_into_file 'config/routes.rb', after: '# For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html' do
-
-    resources :users, only: [:new, :create, :show, :index, :edit, :update, :destroy]
-
-    require "sidekiq/web"
-    # authenticate :user, ->(user) { user.admin } do
-    #   mount Sidekiq::Web => '/sidekiq'
-    # end
-  end
 
   # Git ignore
   ########################################
@@ -232,6 +216,24 @@ after_bundle do
       end
     end
   RUBY
+
+  # Routes
+  ########################################
+  route "root to: 'pages#home'"
+
+  inject_into_file 'config/routes.rb', after: 'Rails.application.routes.draw do' do
+    devise_for :users, :path => 'u'
+  end
+
+  inject_into_file 'config/routes.rb', after: '# For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html' do
+
+    resources :users, only: [:new, :create, :show, :index, :edit, :update, :destroy]
+
+    require "sidekiq/web"
+    # authenticate :user, ->(user) { user.admin } do
+    #   mount Sidekiq::Web => '/sidekiq'
+    # end
+  end
 
   # Environments
   ########################################
